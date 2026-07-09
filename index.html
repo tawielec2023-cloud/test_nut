@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT 4-Channel Control Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex flex-col justify-between">
+
+    <header class="bg-blue-600 text-white shadow-md p-4 text-center">
+        <h1 class="text-2xl font-bold"><i class="fa-solid fa-microchip mr-2"></i>ระบบควบคุม IoT 4 ช่องสัญญาณ</h1>
+        <p class="text-sm text-blue-100 mt-1">IoT 4-Channel Real-time Monitoring & Control</p>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 max-w-5xl flex-grow">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            
+            <div class="bg-white rounded-xl shadow-sm p-6 border-t-4 border-emerald-500 text-center">
+                <div class="text-emerald-500 text-3xl mb-2"><i class="fa-solid fa-lightbulb"></i></div>
+                <h3 class="font-semibold text-gray-700 text-lg">Channel 1</h3>
+                <p class="text-xs text-gray-400 mb-4">อุปกรณ์ไฟฟ้า 1</p>
+                <span id="status-1" class="px-3 py-1 bg-red-100 text-red-700 text-xs rounded-full font-medium">OFFLINE</span>
+                <div class="mt-5">
+                    <button onclick="toggleChannel(1)" id="btn-1" class="w-full bg-slate-700 text-white py-2 px-4 rounded-lg hover:bg-slate-800 transition font-medium text-sm">เปิดใช้งาน</button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 border-t-4 border-blue-500 text-center">
+                <div class="text-blue-500 text-3xl mb-2"><i class="fa-solid fa-fan"></i></div>
+                <h3 class="font-semibold text-gray-700 text-lg">Channel 2</h3>
+                <p class="text-xs text-gray-400 mb-4">อุปกรณ์ไฟฟ้า 2</p>
+                <span id="status-2" class="px-3 py-1 bg-red-100 text-red-700 text-xs rounded-full font-medium">OFFLINE</span>
+                <div class="mt-5">
+                    <button onclick="toggleChannel(2)" id="btn-2" class="w-full bg-slate-700 text-white py-2 px-4 rounded-lg hover:bg-slate-800 transition font-medium text-sm">เปิดใช้งาน</button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 border-t-4 border-amber-500 text-center">
+                <div class="text-amber-500 text-3xl mb-2"><i class="fa-solid fa-plug"></i></div>
+                <h3 class="font-semibold text-gray-700 text-lg">Channel 3</h3>
+                <p class="text-xs text-gray-400 mb-4">อุปกรณ์ไฟฟ้า 3</p>
+                <span id="status-3" class="px-3 py-1 bg-red-100 text-red-700 text-xs rounded-full font-medium">OFFLINE</span>
+                <div class="mt-5">
+                    <button onclick="toggleChannel(3)" id="btn-3" class="w-full bg-slate-700 text-white py-2 px-4 rounded-lg hover:bg-slate-800 transition font-medium text-sm">เปิดใช้งาน</button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 border-t-4 border-purple-500 text-center">
+                <div class="text-purple-500 text-3xl mb-2"><i class="fa-solid fa-water"></i></div>
+                <h3 class="font-semibold text-gray-700 text-lg">Channel 4</h3>
+                <p class="text-xs text-gray-400 mb-4">อุปกรณ์ไฟฟ้า 4</p>
+                <span id="status-4" class="px-3 py-1 bg-red-100 text-red-700 text-xs rounded-full font-medium">OFFLINE</span>
+                <div class="mt-5">
+                    <button onclick="toggleChannel(4)" id="btn-4" class="w-full bg-slate-700 text-white py-2 px-4 rounded-lg hover:bg-slate-800 transition font-medium text-sm">เปิดใช้งาน</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-sm">
+            <h3 class="text-gray-700 font-semibold mb-4 flex items-center">
+                <i class="fa-solid fa-chart-line text-blue-500 mr-2"></i> ประวัติการทำงานและการรับส่งข้อมูล (Real-time Simulation)
+            </h3>
+            <div class="w-full h-64">
+                <canvas id="iotChart"></canvas>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 text-center py-6 border-t border-gray-700">
+        <div class="container mx-auto px-4 text-sm space-y-1">
+            <p class="font-semibold text-white">ระบบนี้พัฒนาโดย</p>
+            <p class="text-base text-blue-400 font-medium">นาย/นางสาว ใส่ชื่อ-นามสกุลของคุณที่นี่</p>
+            <p>สาขาวิชา: ใส่สาขาวิชาของคุณที่นี่</p>
+            <p>โรงเรียน/วิทยาลัย: ใส่ชื่อโรงเรียนหรือสถานศึกษาของคุณที่นี่</p>
+            <p class="text-xs text-gray-500 mt-2">&copy; 2026 IoT Dashboard Project. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // เก็บสถานะของแต่ละ Channel (false = ปิด, true = เปิด)
+        const channelStates = { 1: false, 2: false, 3: false, 4: false };
+
+        // ฟังก์ชันเปิด-ปิดไฟจำลอง
+        function toggleChannel(chId) {
+            channelStates[chId] = !channelStates[chId];
+            
+            const statusBadge = document.getElementById(`status-${chId}`);
+            const actionBtn = document.getElementById(`btn-${chId}`);
+
+            if (channelStates[chId]) {
+                // เปลี่ยนเป็นสถานะ ON
+                statusBadge.textContent = "ONLINE / ON";
+                statusBadge.className = "px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium";
+                actionBtn.textContent = "ปิดใช้งาน";
+                actionBtn.className = "w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition font-medium text-sm";
+            } else {
+                // เปลี่ยนเป็นสถานะ OFF
+                statusBadge.textContent = "OFFLINE";
+                statusBadge.className = "px-3 py-1 bg-red-100 text-red-700 text-xs rounded-full font-medium";
+                actionBtn.textContent = "เปิดใช้งาน";
+                actionBtn.className = "w-full bg-slate-700 text-white py-2 px-4 rounded-lg hover:bg-slate-800 transition font-medium text-sm";
+            }
+            
+            // หมายเหตุ: หากต้องการเชื่อมต่อกับบอร์ดจริง (เช่น ESP32 / ESP8266) 
+            // สามารถเขียนคำสั่ง fetch() หรือใช้ MQTT ส่งค่าไปที่บอร์ดเพิ่มตรงส่วนนี้ได้ครับ
+            console.log(`Channel ${chId} is now ${channelStates[chId] ? 'ON' : 'OFF'}`);
+        }
+
+        // โค้ดสร้างกราฟจำลอง (Chart.js)
+        const ctx = document.getElementById('iotChart').getContext('2d');
+        const iotChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
+                datasets: [{
+                    label: 'ปริมาณการใช้พลังงานจำลอง (Watt)',
+                    data: [12, 19, 3, 5, 22, 3],
+                    borderColor: 'rgba(59, 130, 246, 1)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
